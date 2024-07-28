@@ -1,5 +1,5 @@
 # FileBot---Auto-Python-Script
-This script will watch a directory, unzip only files &lt; X gb within the zip, process them and delete the zip when done.
+This script will watch a directory, unzip only files > X gb within the zip, process them and delete the zip when done.
 
 This script isn't polished or fully developed, but it gets the job done by monitoring a directory, automatically unzipping, renaming, moving, and cleaning up files without any manual intervention.
 
