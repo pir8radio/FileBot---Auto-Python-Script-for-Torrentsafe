@@ -68,7 +68,7 @@ def process_files_with_filebot(temp_path):
 
     try:
         result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print("FileBot processing completed successfully.    ", end="\r")
+        print("FileBot processing completed successfully.       ")
         try:
             print(result.stdout.decode())
         except:
