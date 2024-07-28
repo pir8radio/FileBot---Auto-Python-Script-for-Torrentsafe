@@ -7,7 +7,7 @@ import time
 #========== Settings ============
 
 min_file_size = 1                                           # File should be at least X Gb to extract it from the zip
-source_path = "N:Torrents"                                  # Source media archive folder
+source_path = "N:Torrents"                                  # Source download folder folder that contains the .zip's
 temp_path = "N:Torrents/-=Decompressed=-"                   # Holding folder for un-zipped files waiting to be renamed
 format_info = "{drive}/Movie/{ny}/{ny}{' CD'+pi}{subt}"     # Normal filebot format for renaming and final location of renamed media
 action = "move"                                             # Normal filebot action aka: move | copy | symlink | hardlink
