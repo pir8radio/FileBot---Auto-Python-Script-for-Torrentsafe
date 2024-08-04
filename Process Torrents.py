@@ -7,11 +7,12 @@ import time
 #========== Settings ============
 
 min_file_size = 1                                           # File should be at least X Gb to extract it from the zip
-source_path = "N:Torrents"                                  # Source download folder folder that contains the .zip's
+source_path = "N:Torrents"                                  # Source media archive folder
 temp_path = "N:Torrents/-=Decompressed=-"                   # Holding folder for un-zipped files waiting to be renamed
-format_info = "{drive}/Movie/{ny}/{ny}{' CD'+pi}{subt}"     # Normal filebot format for renaming and final location of renamed media
+format_info = "{drive}/{plex}"                              # Normal filebot format for renaming and final location of renamed media
 action = "move"                                             # Normal filebot action aka: move | copy | symlink | hardlink
-database = "TheMovieDB"                                     # Normal filebot db value aka: TheMovieDB | OMDb
+movie_db = "TheMovieDB"                                     # Normal filebot db value aka: TheMovieDB | OMDb
+tv_db ="TheMovieDB::TV"                                     # Normal filebot db value aka: TheMovieDB | OMDb
 
 #========== Settings ============
 
@@ -28,7 +29,7 @@ def extract_large_files(zip_folder, extract_folder):
                         zip_info.filename = os.path.basename(zip_info.filename)
                         zip_ref.extract(zip_info, extract_folder)
                 os.remove(zip_path)
-                process_files_with_filebot(temp_path)
+                return
     bar = [
         "Waiting for .zip [=     ]",
         "Waiting for .zip [ =    ]",
@@ -53,15 +54,15 @@ def extract_large_files(zip_folder, extract_folder):
         else:
             time.sleep(1)
 
-def process_files_with_filebot(temp_path):
-    # Ensure the folder path exists
+def process_movies_with_filebot(temp_path):
+    # PROCESS MOVIES FIRST
     if not os.path.exists(temp_path):
         print(f"The folder {temp_path} does not exist.")
         return
 
     command = [
         'filebot', '-rename', '-non-strict', temp_path,
-        '--db', database,
+        '--db', movie_db,
         '--format', format_info,
         '--action', action
     ]
@@ -75,7 +76,36 @@ def process_files_with_filebot(temp_path):
             print(result.stdout)
             
     except subprocess.CalledProcessError as error:
-        print("An error occurred while processing files with FileBot or there was nothing found.")
+        print("An error occurred while processing MOVIES with FileBot or there was nothing found by FileBot for MOVIES.")
+        try:
+            print(error.stderr.decode())
+        except:
+            print(error.stderr)
+    return
+
+def process_tvshows_with_filebot(temp_path):
+    # PROCESS TV SHOWS NEXT
+    if not os.path.exists(temp_path):
+        print(f"The folder {temp_path} does not exist.")
+        return
+
+    command = [
+        'filebot', '-rename', '-non-strict', temp_path,
+        '--db', tv_db,
+        '--format', format_info,
+        '--action', action
+    ]
+
+    try:
+        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print("FileBot processing completed successfully.       ")
+        try:
+            print(result.stdout.decode())
+        except:
+            print(result.stdout)
+            
+    except subprocess.CalledProcessError as error:
+        print("An error occurred while processing TV SHOWS with FileBot or there was nothing found by FileBot for TV SHOWSs.")
         try:
             print(error.stderr.decode())
         except:
@@ -86,7 +116,8 @@ def process_files_with_filebot(temp_path):
 def main():
     
     extract_large_files(source_path, temp_path)
-    process_files_with_filebot(temp_path)
+    process_movies_with_filebot(temp_path)
+    process_tvshows_with_filebot(temp_path)
 
 if __name__ == "__main__":
     main()
