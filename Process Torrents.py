@@ -29,7 +29,7 @@ def extract_large_files(zip_folder, extract_folder):
                         zip_info.filename = os.path.basename(zip_info.filename)
                         zip_ref.extract(zip_info, extract_folder)
                 os.remove(zip_path)
-                return
+                process_movies_with_filebot(temp_path)
     bar = [
         "Waiting for .zip [=     ]",
         "Waiting for .zip [ =    ]",
@@ -81,7 +81,7 @@ def process_movies_with_filebot(temp_path):
             print(error.stderr.decode())
         except:
             print(error.stderr)
-    return
+    process_tvshows_with_filebot(temp_path)
 
 def process_tvshows_with_filebot(temp_path):
     # PROCESS TV SHOWS NEXT
@@ -116,8 +116,7 @@ def process_tvshows_with_filebot(temp_path):
 def main():
     
     extract_large_files(source_path, temp_path)
-    process_movies_with_filebot(temp_path)
-    process_tvshows_with_filebot(temp_path)
+
 
 if __name__ == "__main__":
     main()
