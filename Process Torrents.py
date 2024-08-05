@@ -105,7 +105,7 @@ def process_tvshows_with_filebot(temp_path):
             print(result.stdout)
             
     except subprocess.CalledProcessError as error:
-        print("An error occurred while processing TV SHOWS with FileBot or there was nothing found by FileBot for TV SHOWSs.")
+        print("An error occurred while processing TV SHOWS with FileBot or there was nothing found by FileBot for TV SHOWS.")
         try:
             print(error.stderr.decode())
         except:
