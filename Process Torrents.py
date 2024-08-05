@@ -68,8 +68,9 @@ def process_movies_with_filebot(temp_path):
     ]
 
     try:
+        print("Processing MOVIES with FileBot...                ")
         result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print("FileBot processing completed successfully.       ")
+        print("FileBot processing MOVIES completed successfully.")
         try:
             print(result.stdout.decode())
         except:
@@ -97,8 +98,9 @@ def process_tvshows_with_filebot(temp_path):
     ]
 
     try:
+        print("Processing TV SHOWS with FileBot...                ")
         result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print("FileBot processing completed successfully.       ")
+        print("FileBot processing TV SHOWS completed successfully.")
         try:
             print(result.stdout.decode())
         except:
